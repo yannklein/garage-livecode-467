@@ -8,7 +8,7 @@ document.querySelector("#garage-name").innerText = myBadAssGarage.replace(/-/g, 
 
 // define the url to fetch
 const baseUrl = "https://wagon-garage-api.herokuapp.com/";
-const url = `h${baseUrl}/${myBadAssGarage}/cars`;
+const url = `${baseUrl}/${myBadAssGarage}/cars`;
 
 // select the 4 form inputs and the button
 const brand = document.querySelector("#brand");
