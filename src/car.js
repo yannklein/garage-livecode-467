@@ -6,7 +6,7 @@ const displayCar = (car) => {
   const item = `
   <div class="car">
     <div class="car-image">
-      <img src="http://loremflickr.com/280/280/${car.brand} ${car.model}" />
+      <img src="https://loremflickr.com/280/280/${car.brand} ${car.model}" />
     </div>
     <div class="car-info">
       <h4>${car.brand} ${car.model}</h4>
