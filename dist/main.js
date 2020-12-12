@@ -90,14 +90,111 @@
 /*!********************!*\
   !*** ./src/app.js ***!
   \********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// TODO: give a badass name to your garage
-const myBadAssGarage = "";
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _car__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./car */ "./src/car.js");
+// import the car functions from car.js
+
+
+const myBadAssGarage = "wairudo-supiido";
 // DON'T CHANGE THIS LINE
 document.querySelector("#garage-name").innerText = myBadAssGarage.replace(/-/g, " ");
 // //////////////////////
+
+// define the url to fetch
+const baseUrl = "https://wagon-garage-api.herokuapp.com/";
+const url = `h${baseUrl}/${myBadAssGarage}/cars`;
+
+// select the 4 form inputs and the button
+const brand = document.querySelector("#brand");
+const model = document.querySelector("#model");
+const plate = document.querySelector("#plate");
+const owner = document.querySelector("#owner");
+const button = document.querySelector("#submit-btn");
+
+// get the car list when page loaded
+Object(_car__WEBPACK_IMPORTED_MODULE_0__["fetchCars"])(url);
+
+// listen to a click on the "Add car" form button
+button.addEventListener("click", (event) => {
+  event.preventDefault();
+
+  const newCar = {
+    brand: brand.value,
+    model: model.value,
+    plate: plate.value,
+    owner: owner.value
+  };
+  // add a car to the Garage API
+  Object(_car__WEBPACK_IMPORTED_MODULE_0__["addCar"])(url, newCar);
+});
+
+
+/***/ }),
+
+/***/ "./src/car.js":
+/*!********************!*\
+  !*** ./src/car.js ***!
+  \********************/
+/*! exports provided: fetchCars, addCar */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchCars", function() { return fetchCars; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addCar", function() { return addCar; });
+// select the car list
+const carsList = document.querySelector(".cars-list");
+
+// display a car in the car list
+const displayCar = (car) => {
+  const item = `
+  <div class="car">
+    <div class="car-image">
+      <img src="http://loremflickr.com/280/280/${car.brand} ${car.model}" />
+    </div>
+    <div class="car-info">
+      <h4>${car.brand} ${car.model}</h4>
+      <p><strong>Owner:</strong>${car.owner}</p>
+      <p><strong>Plate:</strong>${car.plate}</p>
+    </div>
+  </div>`;
+  carsList.insertAdjacentHTML("beforeend", item);
+};
+
+// fetch all the cars from the API
+const fetchCars = (url) => {
+  fetch(url)
+    .then(response => response.json())
+    .then((data) => {
+      // clean the car list before adding the new one
+      carsList.innerHTML = "";
+      data.forEach((car) => {
+        // add each car found in tthe garage API to the car list
+        displayCar(car);
+      });
+    });
+};
+
+// add a new car to the garage API
+const addCar = (url, newCar) => {
+  fetch(url, {
+    method: "POST",
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(newCar)
+  })
+    .then(response => response.json())
+    .then((data) => {
+      console.log(data);
+      // refresh the car list: fetch again all the cars from the API
+      fetchCars(url);
+    });
+};
+
+
 
 
 
